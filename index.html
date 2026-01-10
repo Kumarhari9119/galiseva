@@ -110,7 +110,63 @@
 
 
 
+<!-- COMPARISON -->
+<section class="bg-white">
+  <div class="max-w-6xl mx-auto p-6">
+    <h3 class="text-2xl font-bold mb-6">GaliSeva vs Other Platforms</h3>
 
+    <div class="overflow-x-auto">
+      <table class="w-full border border-gray-200 text-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="border p-3 text-left">Feature</th>
+            <th class="border p-3 text-left">GaliSeva</th>
+            <th class="border p-3 text-left">UrbanClap / JustDial</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border p-3">Target Area</td>
+            <td class="border p-3 font-semibold text-green-600">Small towns & local streets</td>
+            <td class="border p-3">Mostly metro cities</td>
+          </tr>
+          <tr>
+            <td class="border p-3">Service Type</td>
+            <td class="border p-3 font-semibold text-green-600">Roaming & hyperlocal services</td>
+            <td class="border p-3">Fixed-location professionals</td>
+          </tr>
+          <tr>
+            <td class="border p-3">Real-time Availability</td>
+            <td class="border p-3 font-semibold text-green-600">Yes (live nearby)</td>
+            <td class="border p-3">Limited / No</td>
+          </tr>
+          <tr>
+            <td class="border p-3">Commission</td>
+            <td class="border p-3 font-semibold text-green-600">Very low or zero</td>
+            <td class="border p-3">High commission</td>
+          </tr>
+          <tr>
+            <td class="border p-3">Designed for Informal Workers</td>
+            <td class="border p-3 font-semibold text-green-600">Yes</td>
+            <td class="border p-3">No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NEARBY ACTIVE PROVIDERS -->
+<section class="bg-gray-50">
+  <div class="max-w-6xl mx-auto p-6">
+    <h3 class="text-2xl font-bold mb-4">Nearby Active Providers</h3>
+    <p class="text-sm text-gray-600 mb-6">
+      These service providers are currently active in your nearby area.
+    </p>
+
+    <div id="providerList" class="grid md:grid-cols-2 gap-4"></div>
+  </div>
+</section>
 
 
 
@@ -135,7 +191,59 @@
   </div>
 </footer>
 
+
+
+<script>
+  const providers = [
+    {
+      name: "Raju Kumar",
+      service: "Vegetable Seller",
+      area: "Faizalganj",
+      phone: "9000000001",
+      status: "Active Now"
+    },
+    {
+      name: "Amit Scrapwala",
+      service: "Scrap Collection",
+      area: "Beda Nahar",
+      phone: "9000000002",
+      status: "Active Now"
+    },
+    {
+      name: "Suresh Electrician",
+      service: "Electrician",
+      area: "Mahaveer Sthan",
+      phone: "9000000003",
+      status: "Active Now"
+    }
+  ];
+
+  const list = document.getElementById("providerList");
+
+  providers.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "bg-white p-4 rounded shadow flex justify-between items-center";
+
+    card.innerHTML = `
+      <div>
+        <h4 class="font-semibold">${p.name}</h4>
+        <p class="text-sm text-gray-600">${p.service} • ${p.area}</p>
+        <span class="text-xs text-green-600 font-semibold">${p.status}</span>
+      </div>
+      <a href="tel:${p.phone}" class="bg-green-600 text-white px-4 py-2 rounded text-sm">
+        Call
+      </a>
+    `;
+
+    list.appendChild(card);
+  });
+</script>
+
+
+
+  
 </body>
 </html>
+
 
 
