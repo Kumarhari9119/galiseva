@@ -155,7 +155,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- NEARBY ACTIVE PROVIDERS -->
 <section class="bg-gray-50">
   <div class="max-w-6xl mx-auto p-6">
@@ -164,6 +164,24 @@
       These service providers are currently active in your nearby area.
     </p>
 
+
+
+<div class="mb-4">
+  <label class="text-sm font-semibold">Your Area</label>
+  <select id="areaSelect" class="border px-3 py-2 rounded ml-2">
+    <option value="Faizalganj">Faizalganj</option>
+    <option value="Beda Nahar">Beda Nahar</option>
+    <option value="Mahaveer Sthan">Mahaveer Sthan</option>
+  </select>
+</div>
+
+<div id="signalBox" class="hidden mb-4 p-3 bg-green-100 text-green-700 rounded text-sm">
+  Signal sent to nearby consumers in this area
+</div>
+
+
+
+    
     <div id="providerList" class="grid md:grid-cols-2 gap-4"></div>
   </div>
 </section>
@@ -195,55 +213,58 @@
 
 <script>
   const providers = [
-    {
-      name: "Raju Kumar",
-      service: "Vegetable Seller",
-      area: "Faizalganj",
-      phone: "9000000001",
-      status: "Active Now"
-    },
-    {
-      name: "Amit Scrapwala",
-      service: "Scrap Collection",
-      area: "Beda Nahar",
-      phone: "9000000002",
-      status: "Active Now"
-    },
-    {
-      name: "Suresh Electrician",
-      service: "Electrician",
-      area: "Mahaveer Sthan",
-      phone: "9000000003",
-      status: "Active Now"
-    }
+    { name:"Raju Kumar", service:"Vegetable Seller", area:"Faizalganj", phone:"9000000001" },
+    { name:"Amit Scrapwala", service:"Scrap Collection", area:"Beda Nahar", phone:"9000000002" },
+    { name:"Suresh Electrician", service:"Electrician", area:"Mahaveer Sthan", phone:"9000000003" },
+    { name:"Pintu Sabziwala", service:"Vegetable Seller", area:"Faizalganj", phone:"9000000004" }
   ];
 
   const list = document.getElementById("providerList");
+  const areaSelect = document.getElementById("areaSelect");
+  const signalBox = document.getElementById("signalBox");
 
-  providers.forEach(p => {
-    const card = document.createElement("div");
-    card.className = "bg-white p-4 rounded shadow flex justify-between items-center";
+  function renderProviders(area) {
+    list.innerHTML = "";
+    const filtered = providers.filter(p => p.area === area);
 
-    card.innerHTML = `
-      <div>
-        <h4 class="font-semibold">${p.name}</h4>
-        <p class="text-sm text-gray-600">${p.service} • ${p.area}</p>
-        <span class="text-xs text-green-600 font-semibold">${p.status}</span>
-      </div>
-      <a href="tel:${p.phone}" class="bg-green-600 text-white px-4 py-2 rounded text-sm">
-        Call
-      </a>
-    `;
+    filtered.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "bg-white p-4 rounded shadow flex justify-between items-center";
 
-    list.appendChild(card);
+      card.innerHTML = `
+        <div>
+          <h4 class="font-semibold">${p.name}</h4>
+          <p class="text-sm text-gray-600">${p.service} • ${p.area}</p>
+          <span class="text-xs text-green-600 font-semibold">Active Now</span>
+        </div>
+        <a href="tel:${p.phone}" class="bg-green-600 text-white px-4 py-2 rounded text-sm">
+          Call
+        </a>
+      `;
+
+      list.appendChild(card);
+    });
+
+    // show signal
+    signalBox.classList.remove("hidden");
+    setTimeout(() => signalBox.classList.add("hidden"), 2000);
+  }
+
+  // initial load
+  renderProviders(areaSelect.value);
+
+  areaSelect.addEventListener("change", () => {
+    renderProviders(areaSelect.value);
   });
 </script>
+
 
 
 
   
 </body>
 </html>
+
 
 
 
