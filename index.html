@@ -35,6 +35,14 @@
       class="px-5 py-2 rounded bg-gray-300 text-gray-700 font-semibold">
       Provider Mode
     </button>
+
+
+<button id="helpBtn"
+     class="px-5 py-2 rounded bg-gray-400 text-gray-600 font-semibold">
+    Explain This Demo
+  </button>
+
+    
   </div>
 </section>
 
@@ -263,6 +271,30 @@
   </div>
 </footer>
 
+<!-- EXPLAIN OVERLAY -->
+<div id="explainOverlay"
+  class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+
+  <div class="bg-white max-w-lg w-full p-6 rounded-lg relative">
+    <button id="closeExplain"
+      class="absolute top-2 right-3 text-gray-500 text-xl">&times;</button>
+
+    <h3 class="text-2xl font-bold mb-4 text-green-600">
+      How GaliSeva Works (Demo Guide)
+    </h3>
+
+    <ul class="space-y-3 text-sm text-gray-700">
+      <li>👤 <b>Consumer Mode:</b> View nearby active service providers.</li>
+      <li>🧑‍🔧 <b>Provider Mode:</b> Providers broadcast availability.</li>
+      <li>📍 <b>Location Signal:</b> Area-based discovery (simulated).</li>
+      <li>💰 <b>Revenue:</b> Subscription / pay-per-lead model.</li>
+    </ul>
+
+    <p class="mt-4 text-xs text-gray-500">
+      This is a working prototype built for small towns.
+    </p>
+  </div>
+</div>
 
 
 <script>
@@ -372,6 +404,22 @@
   areaSelect.onchange = () => renderProviders(areaSelect.value);
 
   renderProviders(areaSelect.value);
+
+const helpBtn = document.getElementById("helpBtn");
+const explainOverlay = document.getElementById("explainOverlay");
+const closeExplain = document.getElementById("closeExplain");
+
+helpBtn.onclick = () => {
+  explainOverlay.classList.remove("hidden");
+};
+
+closeExplain.onclick = () => {
+  explainOverlay.classList.add("hidden");
+};
+
+
+
+  
 </script>
 
 
@@ -381,6 +429,7 @@
   
 </body>
 </html>
+
 
 
 
