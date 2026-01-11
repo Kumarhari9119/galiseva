@@ -22,6 +22,28 @@
   </div>
 </header>
 
+
+<!-- MODE SWITCH -->
+<section class="bg-gray-100">
+  <div class="max-w-6xl mx-auto p-4 flex justify-center gap-4">
+    <button id="consumerBtn"
+      class="px-5 py-2 rounded bg-green-600 text-white font-semibold">
+      Consumer Mode
+    </button>
+
+    <button id="providerBtn"
+      class="px-5 py-2 rounded bg-gray-300 text-gray-700 font-semibold">
+      Provider Mode
+    </button>
+  </div>
+</section>
+
+
+
+
+
+
+  
 <!-- HERO -->
 <section class="bg-green-600 text-white">
   <div class="max-w-6xl mx-auto p-10 text-center">
@@ -157,7 +179,10 @@
 </section>
  
 <!-- NEARBY ACTIVE PROVIDERS -->
-<section class="bg-gray-50">
+<section id="consumerSection" class="bg-gray-50">
+
+
+  
   <div class="max-w-6xl mx-auto p-6">
     <h3 class="text-2xl font-bold mb-4">Nearby Active Providers</h3>
     <p class="text-sm text-gray-600 mb-6">
@@ -165,6 +190,18 @@
     </p>
 
 
+
+<!-- PROVIDER PANEL -->
+<div id="providerPanel"
+  class="hidden mb-4 p-4 rounded bg-blue-100 text-blue-800 text-sm">
+  <b>Provider Dashboard</b><br>
+  You are currently visible to nearby consumers.
+</div>
+
+
+
+
+    
 
 <div class="mb-4">
   <label class="text-sm font-semibold">Your Area</label>
@@ -175,6 +212,7 @@
   </select>
 </div>
 
+    
 
 <div class="mb-4 flex items-center gap-3">
   <label class="text-sm font-semibold">Provider Availability</label>
@@ -229,6 +267,7 @@
 
 <script>
   let providerActive = true;
+  let currentMode = "consumer";
 
   const providers = [
     { name:"Raju Kumar", service:"Vegetable Seller", area:"Faizalganj", phone:"9000000001" },
@@ -241,9 +280,21 @@
   const areaSelect = document.getElementById("areaSelect");
   const signalBox = document.getElementById("signalBox");
   const toggleBtn = document.getElementById("toggleBtn");
+  const consumerBtn = document.getElementById("consumerBtn");
+  const providerBtn = document.getElementById("providerBtn");
+  const providerPanel = document.getElementById("providerPanel");
 
+
+  const consumerSection = document.getElementById("consumerSection");
+
+
+
+
+  
   function renderProviders(area) {
     list.innerHTML = "";
+
+    if (currentMode === "provider") return;
 
     if (!providerActive) {
       list.innerHTML = `<p class="text-sm text-gray-500">
@@ -276,7 +327,39 @@
     setTimeout(() => signalBox.classList.add("hidden"), 2000);
   }
 
-  toggleBtn.addEventListener("click", () => {
+  consumerBtn.onclick = () => {
+  currentMode = "consumer";
+
+  consumerBtn.className =
+    "px-5 py-2 rounded bg-green-600 text-white font-semibold";
+  providerBtn.className =
+    "px-5 py-2 rounded bg-gray-300 text-gray-700 font-semibold";
+
+  providerPanel.classList.add("hidden");
+  consumerSection.classList.remove("hidden");
+
+  document.body.className = "bg-gray-100 text-gray-800";
+
+  renderProviders(areaSelect.value);
+};
+
+  providerBtn.onclick = () => {
+  currentMode = "provider";
+
+  providerBtn.className =
+    "px-5 py-2 rounded bg-blue-600 text-white font-semibold";
+  consumerBtn.className =
+    "px-5 py-2 rounded bg-gray-300 text-gray-700 font-semibold";
+
+  providerPanel.classList.remove("hidden");
+  consumerSection.classList.add("hidden");
+
+  document.body.className = "bg-blue-50 text-gray-800";
+
+  list.innerHTML = "";
+};
+
+  toggleBtn.onclick = () => {
     providerActive = !providerActive;
     toggleBtn.innerText = providerActive ? "ON" : "OFF";
     toggleBtn.className = providerActive
@@ -284,11 +367,9 @@
       : "px-4 py-1 rounded bg-gray-400 text-white text-sm";
 
     renderProviders(areaSelect.value);
-  });
+  };
 
-  areaSelect.addEventListener("change", () => {
-    renderProviders(areaSelect.value);
-  });
+  areaSelect.onchange = () => renderProviders(areaSelect.value);
 
   renderProviders(areaSelect.value);
 </script>
@@ -300,6 +381,7 @@
   
 </body>
 </html>
+
 
 
 
