@@ -71,7 +71,7 @@
 
 
 <!-- NEARBY ACTIVE PROVIDERS -->
-<section class="bg-gray-50">
+<section id="consumerSection" class="bg-gray-50">
   <div class="max-w-6xl mx-auto p-6">
     <h3 class="text-2xl font-bold mb-4">Nearby Active Providers</h3>
     <p class="text-sm text-gray-600 mb-6">
@@ -120,7 +120,65 @@
 
 
 
+<!-- PROVIDER DASHBOARD -->
+<section id="providerPanel" class="hidden bg-blue-50 min-h-screen">
 
+  <div class="max-w-6xl mx-auto p-6">
+
+    <h2 class="text-2xl font-bold mb-2">
+      Welcome, Service Provider!
+    </h2>
+
+    <p class="text-gray-600 mb-6">
+      Manage your GaliSeva profile and availability.
+    </p>
+
+    <div class="bg-white rounded-xl shadow p-6 max-w-xl">
+
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-16 h-16 rounded-full bg-blue-100
+                    flex items-center justify-center text-3xl">
+          👤
+        </div>
+
+        <div>
+          <h3 class="font-bold text-lg">My Provider Profile</h3>
+          <p class="text-sm text-gray-500">
+            Profile setup will be available in Batch 3.
+          </p>
+        </div>
+      </div>
+
+      <hr class="mb-5">
+
+      <h3 class="font-bold mb-3">
+        Service Availability
+      </h3>
+
+      <p id="providerStatus"
+         class="text-green-600 font-semibold mb-4">
+        Currently Available
+      </p>
+
+      <button id="providerModeToggle"
+        class="bg-green-600 text-white px-5 py-3 rounded-lg
+               font-semibold w-full">
+        Turn OFF Availability
+      </button>
+
+    </div>
+
+    <div class="bg-white rounded-xl shadow p-6 max-w-xl mt-5">
+      <h3 class="font-bold mb-2">My Services</h3>
+      <p class="text-sm text-gray-500">
+        Your registered services and customer requests
+        will appear here.
+      </p>
+    </div>
+
+  </div>
+
+</section>
 
 
 
@@ -317,6 +375,35 @@
   const consumerSection = document.getElementById("consumerSection");
 
 
+// PROVIDER DASHBOARD CONTROLS
+
+const providerModeToggle =
+  document.getElementById("providerModeToggle");
+
+const providerStatus =
+  document.getElementById("providerStatus");
+
+providerModeToggle.onclick = () => {
+
+  providerActive = !providerActive;
+
+  providerStatus.innerText = providerActive
+    ? "Currently Available"
+    : "Currently Unavailable";
+
+  providerStatus.className = providerActive
+    ? "text-green-600 font-semibold mb-4"
+    : "text-red-600 font-semibold mb-4";
+
+  providerModeToggle.innerText = providerActive
+    ? "Turn OFF Availability"
+    : "Turn ON Availability";
+
+  providerModeToggle.className = providerActive
+    ? "bg-green-600 text-white px-5 py-3 rounded-lg font-semibold w-full"
+    : "bg-gray-500 text-white px-5 py-3 rounded-lg font-semibold w-full";
+
+};
 
 
   
