@@ -326,6 +326,194 @@
   </div>
 </footer>
 
+
+
+
+
+
+
+
+<!-- GALISEVA AUTHENTICATION APP -->
+
+<div id="authScreen"
+     class="fixed inset-0 z-[100] bg-gray-50 overflow-y-auto">
+
+  <div class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl p-7">
+
+      <!-- BRAND -->
+      <div class="text-center mb-7">
+        <div class="text-4xl mb-2">🏘️</div>
+        <h1 class="text-3xl font-bold text-green-600">
+          GaliSeva
+        </h1>
+        <p class="text-gray-500 text-sm mt-2">
+          Local Services, Just Around You
+        </p>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+
+        <h2 class="text-2xl font-bold mb-2">Welcome Back!</h2>
+
+        <p class="text-sm text-gray-500 mb-5">
+          Login to continue to GaliSeva.
+        </p>
+
+        <form id="loginFormElement">
+
+          <label class="block text-sm font-semibold mb-2">
+            Email Address
+          </label>
+
+          <input id="loginEmail" type="email"
+            placeholder="Enter your email"
+            required
+            autocomplete="email"
+            class="w-full border rounded-lg p-3 mb-4">
+
+          <label class="block text-sm font-semibold mb-2">
+            Password
+          </label>
+
+          <input id="loginPassword" type="password"
+            placeholder="Enter password"
+            required
+            autocomplete="current-password"
+            class="w-full border rounded-lg p-3 mb-3">
+
+          <button type="button" id="forgotPasswordBtn"
+            class="text-blue-600 text-sm mb-5">
+            Forgot Password?
+          </button>
+
+          <button type="submit"
+            class="w-full bg-blue-600 text-white rounded-lg p-3 font-semibold">
+            Login
+          </button>
+
+        </form>
+
+        <p class="text-center text-sm mt-6">
+          New to GaliSeva?
+          <button id="showRegister"
+            class="text-blue-600 font-semibold">
+            Create Account
+          </button>
+        </p>
+
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerForm" class="hidden">
+
+        <h2 class="text-2xl font-bold mb-2">Create Account</h2>
+
+        <p class="text-sm text-gray-500 mb-5">
+          Join your local GaliSeva community.
+        </p>
+
+        <form id="registerFormElement">
+
+          <label class="block text-sm font-semibold mb-2">
+            Full Name
+          </label>
+
+          <input id="registerName" type="text"
+            placeholder="Your name"
+            required maxlength="60"
+            autocomplete="name"
+            class="w-full border rounded-lg p-3 mb-4">
+
+          <label class="block text-sm font-semibold mb-2">
+            Email Address
+          </label>
+
+          <input id="registerEmail" type="email"
+            placeholder="Your email"
+            required autocomplete="email"
+            class="w-full border rounded-lg p-3 mb-4">
+
+          <label class="block text-sm font-semibold mb-2">
+            Password
+          </label>
+
+          <input id="registerPassword" type="password"
+            placeholder="Minimum 8 characters"
+            required minlength="8"
+            autocomplete="new-password"
+            class="w-full border rounded-lg p-3 mb-4">
+
+          <label class="block text-sm font-semibold mb-2">
+            Confirm Password
+          </label>
+
+          <input id="confirmPassword" type="password"
+            placeholder="Confirm your password"
+            required minlength="8"
+            autocomplete="new-password"
+            class="w-full border rounded-lg p-3 mb-4">
+
+          <label class="block text-sm font-semibold mb-2">
+            I want to join as
+          </label>
+
+          <select id="registerRole" required
+            class="w-full border rounded-lg p-3 mb-5">
+
+            <option value="consumer">Consumer – I need services</option>
+
+            <option value="provider">Provider – I provide services</option>
+
+          </select>
+
+          <button type="submit"
+            class="w-full bg-blue-600 text-white rounded-lg p-3 font-semibold">
+            Create Account
+          </button>
+
+        </form>
+
+        <p class="text-center text-sm mt-6">
+          Already registered?
+          <button id="showLogin"
+            class="text-blue-600 font-semibold">
+            Login
+          </button>
+        </p>
+
+      </div>
+
+      <!-- STATUS MESSAGE -->
+      <p id="authMessage"
+         role="status"
+         aria-live="polite"
+         class="text-sm text-center mt-5"></p>
+
+      <p class="text-xs text-gray-400 text-center mt-6">
+        By continuing, you agree to use GaliSeva responsibly.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- EXPLAIN OVERLAY -->
 <div id="explainOverlay"
   class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
@@ -507,6 +695,409 @@ closeExplain.onclick = () => {
 </script>
 
 
+
+<!-- GALISEVA FIREBASE AUTHENTICATION -->
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut,
+  updateProfile
+}
+from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+
+
+// ===================================
+// 1. FIREBASE CONFIGURATION
+// ===================================
+
+const firebaseConfig = {
+
+ apiKey: "AIzaSyBbFEJUddBXM7Lwr152DRhNJJmmWGCEJyw",
+    authDomain: "galiseva.firebaseapp.com",
+    projectId: "galiseva",
+    storageBucket: "galiseva.firebasestorage.app",
+    messagingSenderId: "111182788285",
+    appId: "1:111182788285:web:5cab2e248bc2617b0de9d4",
+    measurementId: "G-VSRWSQ6YR3"
+
+};
+
+
+// ===================================
+// 2. INITIALIZE FIREBASE
+// ===================================
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+// ===================================
+// 3. HTML ELEMENTS
+// ===================================
+
+const authScreen = document.getElementById("authScreen");
+
+const loginForm = document.getElementById("loginForm");
+
+const registerForm = document.getElementById("registerForm");
+
+const authMessage = document.getElementById("authMessage");
+
+
+// ===================================
+// 4. SWITCH LOGIN / REGISTER
+// ===================================
+
+document.getElementById("showRegister").onclick = () => {
+
+  loginForm.classList.add("hidden");
+
+  registerForm.classList.remove("hidden");
+
+  authMessage.textContent = "";
+
+};
+
+document.getElementById("showLogin").onclick = () => {
+
+  registerForm.classList.add("hidden");
+
+  loginForm.classList.remove("hidden");
+
+  authMessage.textContent = "";
+
+};
+
+
+// ===================================
+// 5. LOGIN
+// ===================================
+
+document.getElementById("loginFormElement")
+.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  try {
+
+    authMessage.textContent = "Logging in...";
+
+    await signInWithEmailAndPassword(auth, email, password);
+
+    authMessage.textContent = "Login successful!";
+
+  } catch (error) {
+
+    authMessage.textContent = getAuthError(error.code);
+
+  }
+
+});
+
+
+// ===================================
+// 6. REGISTER
+// ===================================
+
+document.getElementById("registerFormElement")
+.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  const name =
+    document.getElementById("registerName").value.trim();
+
+  const email =
+    document.getElementById("registerEmail").value.trim();
+
+  const password =
+    document.getElementById("registerPassword").value;
+
+  const confirmPassword =
+    document.getElementById("confirmPassword").value;
+
+  const role =
+    document.getElementById("registerRole").value;
+
+
+  if (name.length < 2) {
+
+    authMessage.textContent = "Please enter your full name.";
+
+    return;
+
+  }
+
+  if (password !== confirmPassword) {
+
+    authMessage.textContent = "Passwords do not match.";
+
+    return;
+
+  }
+
+  try {
+
+    authMessage.textContent = "Creating your account...";
+
+    const userCredential =
+      await createUserWithEmailAndPassword(auth, email, password);
+
+    const user = userCredential.user;
+
+    await updateProfile(user, {
+      displayName: name
+    });
+
+    await setDoc(doc(db, "users", user.uid), {
+
+      uid: user.uid,
+
+      name: name,
+
+      email: email,
+
+      role: role,
+
+      profilePhoto: "",
+
+      createdAt: serverTimestamp()
+
+    });
+
+    authMessage.textContent =
+      "Account created successfully!";
+
+  } catch (error) {
+
+    authMessage.textContent = getAuthError(error.code);
+
+  }
+
+});
+
+
+// ===================================
+// 7. FORGOT PASSWORD
+// ===================================
+
+document.getElementById("forgotPasswordBtn")
+.onclick = async () => {
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  if (!email) {
+
+    authMessage.textContent =
+      "Enter your email address first.";
+
+    return;
+
+  }
+
+  try {
+
+    await sendPasswordResetEmail(auth, email);
+
+    authMessage.textContent =
+      "Password reset email sent. Check your inbox.";
+
+  } catch (error) {
+
+    authMessage.textContent = getAuthError(error.code);
+
+  }
+
+};
+
+
+// ===================================
+// 8. AUTHENTICATION STATE
+// ===================================
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (user) {
+
+    try {
+
+      const userRef = doc(db, "users", user.uid);
+
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+
+        await signOut(auth);
+
+        authMessage.textContent =
+          "Your account profile is missing. Please register again.";
+
+        return;
+
+      }
+
+      const profile = userSnap.data();
+
+      authScreen.classList.add("hidden");
+
+      showGaliSevaSession(user, profile);
+
+    } catch (error) {
+
+      console.error("Profile loading error:", error);
+
+      authMessage.textContent =
+        "Unable to load your profile. Please try again.";
+
+    }
+
+  } else {
+
+    authScreen.classList.remove("hidden");
+
+    removeSessionControls();
+
+  }
+
+});
+
+
+// ===================================
+// 9. SESSION CONTROLS
+// ===================================
+
+function showGaliSevaSession(user, profile) {
+
+  removeSessionControls();
+
+  const session = document.createElement("div");
+
+  session.id = "galiSessionControls";
+
+  session.className =
+    "fixed bottom-4 right-4 z-40 bg-white shadow-xl rounded-xl p-3 text-sm border";
+
+  const welcome = document.createElement("p");
+
+  welcome.className = "font-semibold mb-2";
+
+  welcome.textContent =
+    "Welcome, " + (profile.name || user.email);
+
+  const role = document.createElement("p");
+
+  role.className = "text-gray-500 mb-2";
+
+  role.textContent =
+    profile.role === "provider"
+      ? "Service Provider"
+      : "Consumer";
+
+  const logout = document.createElement("button");
+
+  logout.textContent = "Logout";
+
+  logout.className =
+    "bg-red-600 text-white px-4 py-2 rounded-lg w-full";
+
+  logout.onclick = async () => {
+
+    await signOut(auth);
+
+  };
+
+  session.append(welcome, role, logout);
+
+  document.body.appendChild(session);
+
+  // Open the appropriate existing interface.
+
+  if (profile.role === "provider") {
+
+    document.getElementById("providerBtn").click();
+
+  } else {
+
+    document.getElementById("consumerBtn").click();
+
+  }
+
+}
+
+function removeSessionControls() {
+
+  document.getElementById("galiSessionControls")?.remove();
+
+}
+
+
+// ===================================
+// 10. ERROR MESSAGES
+// ===================================
+
+function getAuthError(code) {
+
+  const errors = {
+
+    "auth/invalid-email":
+      "Please enter a valid email address.",
+
+    "auth/user-not-found":
+      "No account found with this email.",
+
+    "auth/wrong-password":
+      "Incorrect password.",
+
+    "auth/invalid-credential":
+      "Incorrect email or password.",
+
+    "auth/email-already-in-use":
+      "This email is already registered.",
+
+    "auth/weak-password":
+      "Please choose a stronger password.",
+
+    "auth/too-many-requests":
+      "Too many attempts. Please try again later.",
+
+    "auth/network-request-failed":
+      "Network error. Check your internet connection."
+
+  };
+
+  return errors[code] || "Something went wrong. Please try again.";
+
+}
+
+</script>
 
 
 
